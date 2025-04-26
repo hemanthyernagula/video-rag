@@ -34,6 +34,19 @@ OPENAI_API_KEY=your_openai_api_key_here
 QDRANT_HOST=""
 ```
 
+4. Run the Video RAG container (optional):
+```bash
+# First build the image
+docker build -t video-rag .
+
+# Then run it with proper environment variables and volume mounting
+docker run -it --name video-rag \
+  -v $(pwd):/app \
+  -w /app \
+  - v $(data_path):/app/data/
+  video-rag
+```
+
 ## Usage
 
 ### Process Video and Store in Qdrant
