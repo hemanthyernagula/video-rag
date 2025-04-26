@@ -49,6 +49,45 @@ docker run -it --name video-rag \
 
 ## Usage
 
+### Complete Workflow - From Video to Search
+
+Follow these steps to process a video and make it searchable:
+
+1. **Process a video to extract subtitles**: 
+```bash
+# Process a video file to extract audio and generate subtitles
+python setup.py --video_path data/your_video.mp4 --output_dir data
+```
+This will:
+- Extract audio from the video
+- Transcribe the audio using Whisper
+- Save the subtitles as `subtitles.json`
+
+2. **Chunk the subtitles and store in Qdrant**: 
+```bash
+# Chunk the subtitles and create vector embeddings
+python chunk_subtitles.py --subtitles data/subtitles.json --collection your_video_collection --method time --time-window 45
+```
+This will:
+- Load the subtitles from the JSON file
+- Chunk them into manageable segments
+- Create embeddings for each chunk
+- Store them in Qdrant with metadata
+
+3. **Query the video using semantic search**:
+```bash
+# Search with a natural language query
+python semantic_search_enhancement.py --query "show me when players are arguing" --video data/your_video.mp4 --collection your_video_collection
+
+# Or search by predefined category
+python semantic_search_enhancement.py --category heated_moments --video data/your_video.mp4 --collection your_video_collection
+```
+This will:
+- Connect to the Qdrant collection
+- Perform semantic search with query expansion
+- Return the most relevant video moments with timestamps
+- Generate clickable links to open the video at exact timestamps
+
 ### Process Video and Store in Qdrant
 
 1. First, process your video to extract audio and generate subtitles:
