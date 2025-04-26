@@ -15,7 +15,7 @@ This system enables natural language querying of video content by:
 
 ## Setup
 
-### Local Installation
+### Installation
 
 1. Install dependencies:
 ```bash
@@ -28,42 +28,10 @@ pip install -r requirements.txt
 docker run -p 6333:6333 -p 6334:6334 -v $(pwd)/qdrant_data:/qdrant/storage qdrant/qdrant
 ```
 
-3. Create a `.env` file with your OpenAI API key:
+3. Create a `.env` file with your API keys:
 ```
 OPENAI_API_KEY=your_openai_api_key_here
 QDRANT_HOST=""
-```
-
-### Docker Setup
-
-1. Create a `.env` file with your OpenAI API key:
-```
-OPENAI_API_KEY=your_openai_api_key_here
-```
-
-2. Build and run with Docker Compose:
-```bash
-docker-compose up --build
-```
-
-This will:
-- Start a Qdrant server container
-- Build and start the Video RAG application container
-- Set up networking between the containers
-
-#### Running Commands in Docker
-
-To run specific commands in the Docker container:
-
-```bash
-# Run with a specific query
-docker-compose run video_rag --query "heated moments" --results 5
-
-# Run with a specific category
-docker-compose run video_rag --category funny_moments
-
-# Run in interactive mode
-docker-compose run video_rag
 ```
 
 ## Usage
@@ -172,11 +140,10 @@ The system offers two chunking methods:
 - Change the embedding model in `openai.embeddings.create()` for different performance characteristics
 - Add new categories in `EnhancedVideoRAG.content_types` to support additional predefined searches
 
-## Troubleshooting Docker
+## Troubleshooting
 
-If you encounter issues with Docker:
+If you encounter issues with Qdrant connection:
 
-1. Make sure Docker Desktop is running
-2. For WSL users, enable WSL integration in Docker Desktop settings
-3. If Qdrant connection fails, check the network settings in docker-compose.yml
-4. For permission issues with mounted volumes, check file permissions 
+1. Make sure the Qdrant container is running
+2. Check that your .env file has the correct QDRANT_HOST value
+3. Verify the port 6333 is accessible 
